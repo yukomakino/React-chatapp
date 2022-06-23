@@ -1,18 +1,23 @@
 import React from "react";
-import Login from "./pages/Login";
+import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
-import Room from "./pages/Room";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from "./pages/Login";
+import { AuthProvider } from "./context/AuthContext";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App = () => {
     return (
-        <BrowserRouter>
-                <Routes>
-                    <Route path='/' element={<Room />} />
-                    <Route path='/login' element={<Login/>} />
-                    <Route path='/signup' element={<SignUp/>} />
-                </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+            <div style={{ margin: '2rem' }}>
+                <Router>
+                    <Routes>
+                        <Route exact path='/' element={<Home />} />
+                        <Route path='signup' element={<SignUp />} />
+                        <Route path='login' element={<Login />} />
+                    </Routes>
+                </Router>
+            </div>
+        </AuthProvider>
     );
 };
 
