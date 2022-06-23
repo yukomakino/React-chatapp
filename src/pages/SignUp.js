@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import firebase from "../config/firebase";
+import { useAuthContext } from "../context/AuthContext";
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
@@ -7,6 +8,8 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(email, password)
+  
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
@@ -15,6 +18,13 @@ const SignUp = () => {
             });
     };
 
+    const handleChangeEmail = (e) => {
+        setEmail(e.currentTarget.value);
+    };
+    const handleChangePassword = (e) => {
+        setPassword(e.currentTarget.value);
+    };
+    
     return (
         <>
             <h1>Sign Up</h1>
@@ -23,11 +33,11 @@ const SignUp = () => {
                     <label htmlFor="email">E-mail</label>
                     <input 
                         type="email"
-                        velue={email}
                         id="email"
                         name="email"
                         placeholder="Email" 
-                        onChange={e => setEmail(e.target.value)}
+                        value={email}
+                        onChange={(e) => handleChangeEmail(e)}
                     />
                 </div>
                 <div>
@@ -38,7 +48,7 @@ const SignUp = () => {
                         id="password"
                         name="password"
                         placeholder="Password" 
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={(e) => handleChangePassword(e)}
                     />
                 </div>
                 <button type="subumit">Sign Up</button>

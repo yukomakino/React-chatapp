@@ -1,19 +1,32 @@
-import React, { useState } from 'react';
+import React, { useContext, useDebugValue, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import firebase from '../config/firebase';
+import { AuthContext } from '../AuthService';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventdefault();
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
+            .then(() => {
+                navigate('/');
+            })
             .catch((err) => {
                 console.log(err);
             });
     };
+
+    // const user = useContext(AuthContext);
+
+    // if (user) {
+        // return <Redirect to="/" />
+    // }
 
     return (
         <>
@@ -41,7 +54,12 @@ const Login = () => {
                         onChange={e => setPassword(e.target.value)}
                     />
                 </div>
-                <button type='submit'>Login</button>
+                <div>
+                    <button type='submit'>Login</button>
+                </div>
+                <div>
+                    ユーザー登録は<Link to={'/signup'}>こちら</Link>から
+                </div>
             </form>
         </>
     );
